@@ -1,12 +1,17 @@
 package cz.mendelu.busitweek2019;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +19,10 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.mapbox.android.core.location.LocationEngine;
+import com.mapbox.android.core.location.LocationEngineListener;
+import com.mapbox.android.core.location.LocationEnginePriority;
+import com.mapbox.android.core.location.LocationEngineProvider;
+import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
@@ -25,6 +34,7 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import java.security.Permission;
+import java.util.List;
 
 import cz.mendelu.busItWeek.library.BeaconTask;
 import cz.mendelu.busItWeek.library.ChoicePuzzle;
@@ -40,7 +50,7 @@ import cz.mendelu.busItWeek.library.beacons.BeaconUtil;
 import cz.mendelu.busItWeek.library.map.MapUtil;
 import cz.mendelu.busItWeek.library.qrcode.QRCodeUtil;
 
-public class  MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener, LocationEngineListener {
     private MapView mapView;
     private MapboxMap mapboxMap;
     private PermissionsManager permissionsManager;
@@ -60,7 +70,7 @@ public class  MapActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this,"pk.eyJ1IjoiaXlhZDE5OTQiLCJhIjoiY2pyc3k3YWlhMG9sOTQzcXNibW1tcWx1NyJ9.FFN7ljzoLYGBXFjhxnvnmA");
+        Mapbox.getInstance(this, "pk.eyJ1IjoiaXlhZDE5OTQiLCJhIjoiY2pyc3k3YWlhMG9sOTQzcXNibW1tcWx1NyJ9.FFN7ljzoLYGBXFjhxnvnmA");
 
         setContentView(R.layout.activity_map);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,8 +82,8 @@ public class  MapActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        beaconUtil=new BeaconUtil(this);
-        storyLine = StoryLine.open(this,BusITWeekDatabaseHelper.class);
+        beaconUtil = new BeaconUtil(this);
+        storyLine = StoryLine.open(this, BusITWeekDatabaseHelper.class);
         currentTask = storyLine.currentTask();
 
         qrCodeButton.setOnClickListener(new View.OnClickListener() {
@@ -95,78 +105,94 @@ public class  MapActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void initializeListeners(){
-       if(currentTask!=null){
+    private void initializeListeners() {
+        if (currentTask != null) {
 
-           if(currentTask instanceof GPSTask){
-               //todo scan for location
-               qrCodeButton.setVisibility(View.GONE);
-               beaconScanningCard.setVisibility(View.GONE);
-           }
+            if (currentTask instanceof GPSTask) {
+                //todo scan for location
+                initializeLocationComponent();
+                initializeLocationEngine();
+                qrCodeButton.setVisibility(View.GONE);
+                beaconScanningCard.setVisibility(View.GONE);
+            }
 
-           if(currentTask instanceof CodeTask){
-               qrCodeButton.setVisibility(View.VISIBLE);
-               beaconScanningCard.setVisibility(View.VISIBLE);
-           }
+            if (currentTask instanceof CodeTask) {
+                qrCodeButton.setVisibility(View.VISIBLE);
+                beaconScanningCard.setVisibility(View.VISIBLE);
+            }
 
-           if(currentTask instanceof BeaconTask){
-               BeaconDefinition definition = new BeaconDefinition((BeaconTask) currentTask) {
-                   @Override
-                   public void execute() {
-                       runPuzzleActivity(currentTask .getPuzzle());
-                   }
-               };
+            if (currentTask instanceof BeaconTask) {
+                BeaconDefinition definition = new BeaconDefinition((BeaconTask) currentTask) {
+                    @Override
+                    public void execute() {
+                        runPuzzleActivity(currentTask.getPuzzle());
+                    }
+                };
 
-               beaconUtil.addBeacon(definition);
-               beaconUtil.startRanging();
-               qrCodeButton.setVisibility(View.GONE);
-               beaconScanningCard.setVisibility(View.VISIBLE);
-           }
-       }
+                beaconUtil.addBeacon(definition);
+                beaconUtil.startRanging();
+                qrCodeButton.setVisibility(View.GONE);
+                beaconScanningCard.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
-    private void removeListeners(){
+    private void removeListeners() {
+        qrCodeButton.setVisibility(View.GONE);
+        if (beaconUtil.isRanging()) {
+            beaconUtil.stopRanging();
+            beaconUtil.clearBeacons();
 
 
+        }
+        //todo stop location listener
+
+        if(mapboxMap!=null && locationEngine!=null){
+            locationEngine.removeLocationUpdates();
+
+        }
     }
-    private void updateMarkers(){
-        if(currentTask!=null && mapboxMap!=null){
-            if(currentMarker != null){
+
+    private void updateMarkers() {
+        if (currentTask != null && mapboxMap != null) {
+            if (currentMarker != null) {
                 mapboxMap.removeMarker(currentMarker);
 
             }
             currentMarker = mapboxMap.addMarker(creatTaskMarker(this, currentTask));
         }
     }
-    private void runPuzzleActivity(Puzzle puzzle){
-        if(puzzle instanceof SimplePuzzle){
+
+    private void runPuzzleActivity(Puzzle puzzle) {
+        if (puzzle instanceof SimplePuzzle) {
 
             startActivity(new Intent(this, SimplePuzzleActivity.class));
         }
-        if(puzzle instanceof ChoicePuzzle){
+        if (puzzle instanceof ChoicePuzzle) {
 
             startActivity(new Intent(this, ChoicePuzzleActivity.class));
         }
-        if(puzzle instanceof ImageSelectPuzzle){
+        if (puzzle instanceof ImageSelectPuzzle) {
 
             startActivity(new Intent(this, ImagePuzzleActivity.class));
         }
 
     }
-    private MarkerOptions creatTaskMarker(Context context,Task task){
 
+    private MarkerOptions creatTaskMarker(Context context, Task task) {
 
 
         int color = R.color.colorGPS;
-        if(task instanceof BeaconTask){
-            color =R.color.colorBeacon;
+        if (task instanceof BeaconTask) {
+            color = R.color.colorBeacon;
         }
-        if(task instanceof CodeTask){
+        if (task instanceof CodeTask) {
 
-            color =R.color.colorQR;        }
+            color = R.color.colorQR;
+        }
 
-            return new MarkerOptions().position(new LatLng(task.getLatitude(),task.getLongitude()))
-                    .icon(MapUtil.createColoredCircleMarker(context,task.getName(),color));
+        return new MarkerOptions().position(new LatLng(task.getLatitude(), task.getLongitude()))
+                .icon(MapUtil.createColoredCircleMarker(context, task.getName(), color));
 
     }
 
@@ -180,12 +206,24 @@ public class  MapActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onResume() {
         super.onResume();
         mapView.onResume();
+        currentTask = storyLine.currentTask();
+        if (currentTask == null) {
+            //no more tasks
+            startActivity(new Intent(this, FInishActivity.class));
+            finish();
+
+        } else {
+            initializeListeners();
+            updateMarkers();
+
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mapView.onStop();
+        removeListeners();
     }
 
 
@@ -199,5 +237,86 @@ public class  MapActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String qrCode = QRCodeUtil.onScanResult(this, requestCode, resultCode, data);
+
+        if (qrCode != null) {
+            if (qrCode.equals(((CodeTask) currentTask).getQR())) {
+                runPuzzleActivity(currentTask.getPuzzle());
+
+            }
+
+        }
+    }
+
+    private void initializeLocationComponent() {
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+            if (mapboxMap != null) {
+                locationComponent = mapboxMap.getLocationComponent();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                locationComponent.activateLocationComponent(this);
+                locationComponent.setLocationComponentEnabled(true);
+
+            }
+
+        }else {
+            permissionsManager= new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
+    }
+    @SuppressLint("MissingPermission")
+    private void initializeLocationEngine(){
+                  if (mapboxMap != null && PermissionsManager.areLocationPermissionsGranted(this))
+                  {
+
+                      locationEngine = new LocationEngineProvider(this).obtainBestLocationEngineAvailable();
+                      locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
+                      locationEngine.setInterval(1000);
+                      locationEngine.requestLocationUpdates();
+                      locationEngine.addLocationEngineListener(this);
+                      locationEngine.activate();
+                  }
+    }
+
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+
+    }
+
+    @Override
+    public void onConnected() {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+      if(currentTask!=null && currentTask instanceof GPSTask){
+          double radius = ((GPSTask) currentTask).getRadius();
+          LatLng userLocation = new LatLng(location.getLatitude(),location.getLongitude());
+          LatLng taskLocation = new LatLng(currentTask.getLatitude(),currentTask.getLongitude());
+          if(userLocation.distanceTo(taskLocation)<radius){
+              runPuzzleActivity(currentTask.getPuzzle());
+
+          }
+
+      }
     }
 }

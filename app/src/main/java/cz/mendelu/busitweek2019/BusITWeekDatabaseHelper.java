@@ -7,7 +7,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper{
 
 
     public BusITWeekDatabaseHelper() {
-        super(15);
+        super(20);
     }
 
     @Override
@@ -19,26 +19,21 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper{
                 .hint("Hint")
                 .simplePuzzle()
                 .question("What is the best Bus IT Week?")
-                .answer("Brno")
+                .answer("Br")
                 .hint("Question hint")
                 .puzzleTime(30000)
                 .puzzleDone()
                 .taskDone();
 
-        builder.addGPSTask("2")
-                .location(0,0).
-                radius(100000)
-                .choicePuzzle()
-                .addChoice("Fdsfs",false)
-                .addChoice("Dfsdfasf",false)
-                .addChoice("Fsdfdfsd",true)
-                .addChoice("Fdfasfdds",false)
-                .question("Really")
-                 .puzzleDone()
-        .taskDone();
+        builder.addCodeTask("2")
+                .location(0,0)
+                .ean(4545)
+                .qr("fvv")
+
+                .taskDone();
 
         builder.addBeaconTask("3")
-                .beacon(1,1)
+                .beacon(29028,54274)
                 .imageSelectPuzzle()
                 .addImage(R.drawable.brn,false)
                 .addImage(R.drawable.cropped,false)
@@ -48,6 +43,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper{
                 .puzzleDone()
                 .location(1.0,1.0)
                 .taskDone();
+
 
 
 
