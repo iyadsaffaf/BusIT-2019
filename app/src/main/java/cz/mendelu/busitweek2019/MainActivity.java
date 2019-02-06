@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start(View view) {
-        Intent intent = new Intent(MainActivity.this,ImagePuzzleActivity .class);
+        Intent intent = new Intent(MainActivity.this,MapActivity.class);
         startActivity(intent);
     }
+
+
 }
