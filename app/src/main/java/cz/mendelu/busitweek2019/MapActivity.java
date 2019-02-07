@@ -9,8 +9,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -33,7 +31,6 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
-import java.security.Permission;
 import java.util.List;
 
 import cz.mendelu.busItWeek.library.BeaconTask;
@@ -45,6 +42,7 @@ import cz.mendelu.busItWeek.library.Puzzle;
 import cz.mendelu.busItWeek.library.SimplePuzzle;
 import cz.mendelu.busItWeek.library.StoryLine;
 import cz.mendelu.busItWeek.library.Task;
+import cz.mendelu.busItWeek.library.TaskStatus;
 import cz.mendelu.busItWeek.library.beacons.BeaconDefinition;
 import cz.mendelu.busItWeek.library.beacons.BeaconUtil;
 import cz.mendelu.busItWeek.library.map.MapUtil;
@@ -206,16 +204,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         mapView.onResume();
-        currentTask = storyLine.currentTask();
+        do {
+            currentTask = storyLine.currentTask();
+        }while (skipNext());
+
         if (currentTask == null) {
             //no more tasks
-            startActivity(new Intent(this, FInishActivity.class));
+            startActivity(new Intent(this, FinishActivity.class));
             finish();
-
         } else {
             initializeListeners();
             updateMarkers();
-
         }
     }
 
@@ -253,6 +252,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Skip next task if optional.
+     * @return if task has been skipped.
+     */
+    private boolean skipNext(){
+        if(currentTask != null){
+            Task lastTask = null;
+            for (Task task : storyLine.taskList()){
+                if(task.getTaskStatus().equals(TaskStatus.SUCCESS) || task.getTaskStatus().equals(TaskStatus.FAILURE)){
+                    lastTask = task;
+                }
+
+                if(task.getTaskStatus().equals(TaskStatus.CURRENT)){
+                    break;
+                }
+            }
+            if(lastTask != null && lastTask.getTaskStatus().equals(TaskStatus.SUCCESS) && currentTask.getName().split("-")[0].equals(lastTask.getName().split("-")[0])){
+                currentTask.skip();
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        return false;
+    }
+
     private void initializeLocationComponent() {
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
             if (mapboxMap != null) {
@@ -278,17 +304,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
     @SuppressLint("MissingPermission")
-    private void initializeLocationEngine(){
-                  if (mapboxMap != null && PermissionsManager.areLocationPermissionsGranted(this))
-                  {
-
-                      locationEngine = new LocationEngineProvider(this).obtainBestLocationEngineAvailable();
-                      locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
-                      locationEngine.setInterval(1000);
-                      locationEngine.requestLocationUpdates();
-                      locationEngine.addLocationEngineListener(this);
-                      locationEngine.activate();
-                  }
+    private void initializeLocationEngine() {
+        if (mapboxMap != null && PermissionsManager.areLocationPermissionsGranted(this)) {
+            locationEngine = new LocationEngineProvider(this).obtainBestLocationEngineAvailable();
+            locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
+            locationEngine.setInterval(1000);
+            locationEngine.requestLocationUpdates();
+            locationEngine.addLocationEngineListener(this);
+            locationEngine.activate();
+        }
     }
 
     @Override
