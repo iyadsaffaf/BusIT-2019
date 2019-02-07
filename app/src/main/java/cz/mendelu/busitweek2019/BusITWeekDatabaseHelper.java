@@ -7,7 +7,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper{
 
 
     public BusITWeekDatabaseHelper() {
-        super(20);
+        super(24);
     }
 
     @Override
