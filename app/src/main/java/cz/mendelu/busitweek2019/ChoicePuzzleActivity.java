@@ -68,6 +68,7 @@ public class ChoicePuzzleActivity extends AppCompatActivity {
     public void onBackPressed() {
        skipCurrentTask();
     }
+
    private class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.MyViewHolder>{
         private List<String> answerList;
 

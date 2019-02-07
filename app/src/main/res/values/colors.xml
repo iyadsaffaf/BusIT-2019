@@ -10,4 +10,7 @@
     <color name="colorBeacon">#196b86</color>
     <color name="colorQR">#1db306</color>
 
+    <color name="colorResultTextNumber">#002440</color>
+    <color name="colorResultRowBackground">#F2DEC0</color>
+
 </resources>
