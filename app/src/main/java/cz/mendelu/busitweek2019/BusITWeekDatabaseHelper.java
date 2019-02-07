@@ -20,8 +20,8 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
         firstStage(49.209790, 16.615008);
         secondStage(49.210025, 16.614832);
         thirdStage(49.210083, 16.614406);
-        fourthStage(29028 ,54274);
-        fifthStage(29028 ,54274);
+        fourthStage(49.210083, 16.614406, 29028 ,54274);
+        fifthStage(49.210083, 16.614406, 29028 ,54274);
     }
 
     /**
@@ -111,8 +111,8 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
      * @param major  major of the stage.
      * @param minor minor of the stage.
      */
-    private void fourthStage(double major, double minor) {
-        taskHelper.addNextStage(major, minor);
+    private void fourthStage(double latitude, double longitude, int major, int minor) {
+        taskHelper.addNextStage(latitude, longitude, major, minor);
 
         taskHelper.defaultBeaconTask(4, 0, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
@@ -149,8 +149,8 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
      * @param major  major of the stage.
      * @param minor minor of the stage.
      */
-    private void fifthStage(double major, double minor) {
-        taskHelper.addNextStage(major, minor);
+    private void fifthStage(double latitude, double longitude, int major, int minor) {
+        taskHelper.addNextStage(latitude, longitude, major, minor);
 
         taskHelper.defaultBeaconTask(5, 0, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
