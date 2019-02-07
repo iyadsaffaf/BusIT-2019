@@ -85,10 +85,12 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
                 .addChoice("Germany", true)
                 .addChoice("Netherlands", false)
                 .addChoice("Sweden", false));
-        taskHelper.defaultGPSTask(3, 1, (builder) -> builder.simplePuzzle()
+        taskHelper.defaultGPSTask(3, 1, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
-                .question("What are the colors of the Czech flag? (type in order, with commas and without spaces)")
-                .answer("red,white,blue"));
+                .question("What are the colors of the Czech flag in the good order? (type in order, with commas and without spaces)")
+                .addChoice("red,white,blue", true)
+                .addChoice("red,blue,white", false)
+                .addChoice("blue,white,red", false));
         taskHelper.defaultGPSTask(3, 2, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
                 .question("Who is the president of the Czech Republic?")
