@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "976020581378",
+    "firebase_url": "https://busitweek20192.firebaseio.com",
+    "project_id": "busitweek20192",
+    "storage_bucket": "busitweek20192.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976020581378:android:d7d3341bbef5a4bc",
+        "android_client_info": {
+          "package_name": "cz.mendelu.busitweek2019"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976020581378-cjkfrlp9qia1qqio0la2kg3gat9urug1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cz.mendelu.busitweek2019",
+            "certificate_hash": "6b73a719a7c808419f7390849fc09286d56d1fd3"
+          }
+        },
+        {
+          "client_id": "976020581378-ki1or0f6adqskbid4epqi5kguh38h4f3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVRuECi7IvNEmqapODMjFq9TLhsX9GZog"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976020581378-ki1or0f6adqskbid4epqi5kguh38h4f3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
