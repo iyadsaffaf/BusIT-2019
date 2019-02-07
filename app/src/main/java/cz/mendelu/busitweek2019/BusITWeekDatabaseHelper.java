@@ -146,11 +146,11 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
     /**
      * Register the [fifth] stage of the app.
      *
-     * @param minor  minor of the stage.
-     * @param major major of the stage.
+     * @param major  major of the stage.
+     * @param minor minor of the stage.
      */
-    private void fifthStage(double minor, double major) {
-        taskHelper.addNextStage(minor, major);
+    private void fifthStage(double major, double minor) {
+        taskHelper.addNextStage(major, minor);
 
         taskHelper.defaultBeaconTask(5, 0, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
