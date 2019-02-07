@@ -52,10 +52,6 @@ class Player {
     }
 
     public String getFormattedTime() {
-        Log.d("timer", String.valueOf(endTime));
-
-        Log.d("timer", String.valueOf(startTime));
-
         int secondsDifference = (int) ((endTime - startTime) / 1000);
         int seconds = secondsDifference % 60;
         int minutes = secondsDifference / 60;
