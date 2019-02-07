@@ -17,9 +17,9 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
 
         taskHelper = new DefaultTaskHelper(builder);
 
-        firstStage(49.212126, 16.617280);
-        secondStage(49.212126, 16.617280);
-        thirdStage(49.212126, 16.617280);
+        firstStage(49.209790, 16.615008);
+        secondStage(49.210025, 16.614832);
+        thirdStage(49.210083, 16.614406);
         fourthStage(49.212126, 16.617280);
         fifthStage(49.212126, 16.617280);
     }
