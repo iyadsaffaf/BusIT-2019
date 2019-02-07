@@ -21,7 +21,7 @@ class Player {
         return currentPlayer;
     }
 
-    private Player() { }
+    public Player() { }
 
     public String getName() {
         return name;
@@ -57,5 +57,9 @@ class Player {
         int minutes = secondsDifference / 60;
 
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public int getTime() {
+       return (int)(endTime - startTime) / 1000;
     }
 }

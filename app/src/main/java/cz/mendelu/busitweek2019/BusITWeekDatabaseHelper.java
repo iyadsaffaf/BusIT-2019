@@ -49,7 +49,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
         taskHelper.defaultGPSTask(1, 1, (builder) -> builder.simplePuzzle()
                 .puzzleTime(20000)
                 .question("At what building at Mendel University can we get lunch? (One letter)")
-                .answer("Yes"));
+                .answer("X"));
     }
 
     /**
@@ -174,7 +174,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
                 .question("What is the most popular beer in the Czech Republic?")
                 .addChoice("IPA", false)
                 .addChoice("Pills", true)
-                .addChoice("Weisen", true));
+                .addChoice("Weisen", false));
 
 
     }
