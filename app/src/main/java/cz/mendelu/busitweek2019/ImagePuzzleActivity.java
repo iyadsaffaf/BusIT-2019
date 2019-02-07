@@ -99,8 +99,8 @@ public class ImagePuzzleActivity extends AppCompatActivity {
                         finish();
                     }else {
                         //not Correct
-                        Toast.makeText(ImagePuzzleActivity.this,"Wrong answer", Toast.LENGTH_SHORT).show();
-
+                        currentTask.finish(false);
+                        finish();
                     }
                 }
             });

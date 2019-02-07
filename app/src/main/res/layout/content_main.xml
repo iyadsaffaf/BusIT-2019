@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
+        style="@style/style_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        style="@style/style_linearlayout"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/welcoming"
             style="@style/style_question_text"
-            android:text="Welcome to our game" />
+            android:text="Welcome to our game"
+            android:textSize="26sp" />
 
         <ImageView
             android:id="@+id/image"
@@ -27,32 +27,51 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
-            android:id="@+id/login"
+            android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please Log in"
+            android:layout_marginTop="10dp"
+            android:text="For keeping the score it is required to fill in the name. The score will be based on the time it takes to complete all the given tasks."
             android:visibility="visible" />
 
-
-        <EditText
-            android:id="@+id/userName"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="userName"
-            android:textAlignment="center"
-            />
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            >
 
-        <Button
-            android:id="@+id/logInButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="logIn"/>
+            <LinearLayout
+                style="@style/style_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="Name of the team/player"
+                    android:textAlignment="center"/>
+
+                <Button
+                    android:id="@+id/logInButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Continue"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
-
 
 
 </android.support.constraint.ConstraintLayout>
