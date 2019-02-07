@@ -90,7 +90,6 @@ class DefaultTaskHelper {
                 .victoryPoints(VICTORY_POINTS);
 
         PuzzleBuilder puzzleBuilder = defaultTaskBuilder.build(taskBuilder);
-        puzzleBuilder = (PuzzleBuilder) puzzleBuilder.puzzleTime(30000);
 
         return ((TaskBuilder) puzzleBuilder.puzzleDone()).taskDone();
     }
