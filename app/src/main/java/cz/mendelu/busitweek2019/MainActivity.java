@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView loginTextView;
     private EditText editText;
     private Button button;
+    private ImageView imageButton;
 
     private StoryLine storyLine;
     private Task currentTask;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         loginTextView = findViewById(R.id.login);
         editText = findViewById(R.id.userName);
         button = findViewById(R.id.logInButton);
+        imageButton = findViewById(R.id.image);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

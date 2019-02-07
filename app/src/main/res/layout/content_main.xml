@@ -19,6 +19,13 @@
             style="@style/style_question_text"
             android:text="Welcome to our game" />
 
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="1000px"
+            android:src="@drawable/bib"
+            android:layout_centerHorizontal="true"/>
+
         <TextView
             android:id="@+id/login"
             android:layout_width="wrap_content"
