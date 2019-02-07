@@ -13,6 +13,13 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
 
     @Override
     protected void onCreate(StoryLineBuilder builder) {
+
+        // Start QR code without a question.
+        builder.addCodeTask("0")
+                .location(0,0)
+                .qr("QR")
+                .taskDone();
+
         taskHelper = new DefaultTaskHelper(builder);
 
         firstStage(49.212126, 16.617280);
