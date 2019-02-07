@@ -13,11 +13,17 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText editText;
     private Button button;
     private ImageView imageButton;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+
 
     private View v;
 
@@ -34,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.logInButton);
         imageButton = findViewById(R.id.image);
         Button button = findViewById(R.id.logInButton);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("players");
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!userName.equals("")) {
                     Player player = Player.getPlayer();
                     player.setName(userName);
+                    String key = myRef.push().getKey();
+                    player.setKey(key);
+                    myRef.child(key).setValue(player);
+
                     Intent intent = new Intent(MainActivity.this, StartActivity.class);
                     startActivity(intent);
                 }else{

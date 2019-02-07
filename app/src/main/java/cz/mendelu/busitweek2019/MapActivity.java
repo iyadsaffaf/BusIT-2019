@@ -210,7 +210,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if (currentTask == null) {
             //no more tasks
-            startActivity(new Intent(this, FinishActivity.class));
+
+            Player player = Player.getPlayer();
+            player.endTimer();
+
+            int stars = 0;
+            for (Task task : storyLine.taskList()){
+                if(task.getTaskStatus().equals(TaskStatus.SUCCESS)){
+                    stars += task.getVictoryPoints();
+                }
+            }
+            player.setStars(stars);
+
+
+                startActivity(new Intent(this, FinalResultActivity.class));
             finish();
         } else {
             initializeListeners();
@@ -279,6 +292,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return false;
     }
 
+    @SuppressLint("MissingPermission")
     private void initializeLocationComponent() {
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
             if (mapboxMap != null) {

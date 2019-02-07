@@ -14,6 +14,7 @@ class Player {
     private long startTime;
     private long endTime;
     private boolean isPlaying = false;
+    private  String key;
 
     private int stars = 0;
 
@@ -48,6 +49,7 @@ class Player {
         if(isPlaying){
             endTime = System.currentTimeMillis();
             isPlaying = false;
+
         }
     }
 
@@ -57,6 +59,14 @@ class Player {
         int minutes = secondsDifference / 60;
 
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public int getTime() {
