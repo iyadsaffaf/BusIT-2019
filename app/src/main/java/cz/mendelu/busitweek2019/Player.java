@@ -1,25 +1,27 @@
 package cz.mendelu.busitweek2019;
 
-public class Player {
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+class Player {
+
+    private static final Player currentPlayer = new Player();
 
     private String name;
-    private  int time;
-    private int stars;
 
+    private long startTime;
+    private long endTime;
+    private boolean isPlaying = false;
 
+    private int stars = 0;
 
-    public Player(String name, int time, int stars) {
-        this.name = name;
-        this.time = time;
-        this.stars = stars;
+    static Player getPlayer() {
+        return currentPlayer;
     }
 
-    public Player() {
-    }
-
-    public Player(String name) {
-        this.name = name;
-    }
+    private Player() { }
 
     public String getName() {
         return name;
@@ -29,28 +31,31 @@ public class Player {
         this.name = name;
     }
 
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-    }
-
     public int getStars() {
         return stars;
     }
 
-    public void setStars(int sters) {
-        this.stars = sters;
+    public void setStars(int stars) {
+        this.stars = stars;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", Time=" + time +
-                ", stars=" + stars +
-                '}';
+    public void startTimer() {
+        startTime = System.currentTimeMillis();
+        isPlaying = true;
+    }
+
+    public void endTimer() {
+        if(isPlaying){
+            endTime = System.currentTimeMillis();
+            isPlaying = false;
+        }
+    }
+
+    public String getFormattedTime() {
+        int secondsDifference = (int) ((endTime - startTime) / 1000);
+        int seconds = secondsDifference % 60;
+        int minutes = secondsDifference / 60;
+
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

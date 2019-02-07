@@ -101,8 +101,8 @@ public class SimplePuzzleActivity extends AppCompatActivity {
             finish();
         } else {
             // false answer
-            Toast.makeText(this, "Wrong answer", Toast.LENGTH_LONG).show();
-            answerEditText.setText("");
+            currentTask.finish(false);
+            finish();
         }
     }
 

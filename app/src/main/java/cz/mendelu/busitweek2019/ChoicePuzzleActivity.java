@@ -97,8 +97,8 @@ public class ChoicePuzzleActivity extends AppCompatActivity {
                     finish();
                 }else {
                     //not Correct
-                    Toast.makeText(ChoicePuzzleActivity.this,"Wrong answer",Toast.LENGTH_SHORT).show();
-
+                    currentTask.finish(false);
+                    finish();
                 }
                }
            });
