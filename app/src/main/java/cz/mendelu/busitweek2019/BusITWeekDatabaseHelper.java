@@ -12,7 +12,13 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper{
 
     @Override
     protected void onCreate(StoryLineBuilder builder) {
-        builder.addGPSTask("1")
+
+        builder.addCodeTask("1")
+                .location(0,0)
+                .qr("QR")
+                .taskDone();
+
+        builder.addGPSTask("2")
                 .location(49.212126, 16.617280)
                 .radius(100)
                 .victoryPoints(10)
@@ -25,12 +31,6 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper{
                 .puzzleDone()
                 .taskDone();
 
-        builder.addCodeTask("2")
-                .location(0,0)
-                .ean(4545)
-                .qr("fvv")
-
-                .taskDone();
 
         builder.addBeaconTask("3")
                 .beacon(29028,54274)
