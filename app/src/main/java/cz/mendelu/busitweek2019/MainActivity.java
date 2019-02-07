@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!userName.equals("")) {
                     Player player = Player.getPlayer();
                     player.setName(userName);
-                    Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                    Intent intent = new Intent(MainActivity.this, StartActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(MainActivity.this, "Name is required.", Toast.LENGTH_SHORT).show();

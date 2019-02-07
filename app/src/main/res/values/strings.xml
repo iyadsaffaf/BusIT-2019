@@ -7,5 +7,4 @@
     <string name="title_activity_image_puzzle">ImagePuzzleActivity</string>
     <string name="title_activity_finish">FInishActivity</string>
     <string name="question_text">This is where the question will be</string>
-    <string name="title_activity_final_result">FinalResultActivity</string>
 </resources>
