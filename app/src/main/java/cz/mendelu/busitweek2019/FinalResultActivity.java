@@ -60,7 +60,7 @@ public class FinalResultActivity extends AppCompatActivity {
 
                         // A new comment has been added, add it to the displayed list
                         Player player = dataSnapshot.getValue(Player.class);
-                        if(player.getStars() > 0){
+                        if(player.getStars() > 0 && player.getTime() > 0){
                             players.add(player);
 
                             if (resultatAdaptor != null)
