@@ -21,7 +21,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
         secondStage(49.210025, 16.614832);
         thirdStage(49.210083, 16.614406);
         fourthStage(49.210083, 16.614406, 42417 ,43344);
-        fifthStage(49.210083, 16.614406, 14635 ,52232);
+        fifthStage(49.209458, 16.615033, 14635 ,52232);
     }
 
     /**
@@ -58,7 +58,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
 
         taskHelper.defaultGPSTask(2, 0, (builder) -> builder.imageSelectPuzzle()
                 .puzzleTime(30000)
-                .question("We were at the church of S James during the city your. Which church is this?")
+                .question("We were at the church of S James during the city tour. Which church is this?")
                 .addImage(R.drawable.q1_1, false)
                 .addImage(R.drawable.q1_2, false)
                 .addImage(R.drawable.q1_3, true));
@@ -87,7 +87,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
                 .addChoice("Sweden", false));
         taskHelper.defaultGPSTask(3, 1, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
-                .question("What are the colors of the Czech flag in the good order? (type in order, with commas and without spaces)")
+                .question("What are the colors of the Czech flag in the good order? ")
                 .addChoice("red,white,blue", true)
                 .addChoice("red,blue,white", false)
                 .addChoice("blue,white,red", false));
@@ -154,7 +154,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
 
         taskHelper.defaultBeaconTask(5, 0, (builder) -> builder.choicePuzzle()
                 .puzzleTime(40000)
-                .question("During the city tour, we world told about an old map of the city. Which century was the map made?")
+                .question("During the city tour, we were told about an old map of the city. Which century was the map made?")
                 .addChoice("19th", false)
                 .addChoice("18th", false)
                 .addChoice("17th", true));
