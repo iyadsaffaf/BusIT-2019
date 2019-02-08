@@ -12,9 +12,10 @@ class Player {
     private String name;
 
     private long startTime;
-    private long endTime;
+    private long time;
     private boolean isPlaying = false;
-    private  String key;
+    private String key;
+    private String formattedTime;
 
     private int stars = 0;
 
@@ -47,14 +48,17 @@ class Player {
 
     public void endTimer() {
         if(isPlaying){
-            endTime = System.currentTimeMillis();
+            time = (System.currentTimeMillis() - startTime) / 1000;
             isPlaying = false;
 
         }
     }
 
     public String getFormattedTime() {
-        int secondsDifference = (int) ((endTime - startTime) / 1000);
+        if(formattedTime != null){
+            return formattedTime;
+        }
+        int secondsDifference = (int) (time);
         int seconds = secondsDifference % 60;
         int minutes = secondsDifference / 60;
 
@@ -69,7 +73,15 @@ class Player {
         this.key = key;
     }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     public int getTime() {
-       return (int)(endTime - startTime) / 1000;
+       return (int)time;
+    }
+
+    public void setFormattedTime(String formattedTime) {
+        this.formattedTime = formattedTime;
     }
 }
