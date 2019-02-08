@@ -24,6 +24,7 @@ import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -38,6 +39,7 @@ import cz.mendelu.busItWeek.library.GPSTask;
 import cz.mendelu.busItWeek.library.StoryLine;
 import cz.mendelu.busItWeek.library.beacons.BeaconDefinition;
 import cz.mendelu.busItWeek.library.beacons.BeaconUtil;
+import cz.mendelu.busItWeek.library.map.MapUtil;
 import cz.mendelu.busItWeek.library.qrcode.QRCodeUtil;
 
 
@@ -76,7 +78,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
         mapboxMap.getUiSettings().setAllGesturesEnabled(true);
-
+        mapboxMap.addMarker(new MarkerOptions().position(new LatLng(49.209641, 16.614658))
+                .icon(MapUtil.createColoredCircleMarker(this, "Start", R.color.colorQR)));
     }
 
     @Override
