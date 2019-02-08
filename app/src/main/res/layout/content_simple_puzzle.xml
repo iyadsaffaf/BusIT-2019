@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_simple_puzzle"
     style="@style/style_nestedscrollview">
 
-    <LinearLayout style="@style/style_linearlayout">
+    <LinearLayout style="@style/style_linearlayout" android:orientation="vertical">
 
         <TextView
             android:id="@+id/question"
