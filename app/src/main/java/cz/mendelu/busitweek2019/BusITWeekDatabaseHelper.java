@@ -8,7 +8,7 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
     private DefaultTaskHelper taskHelper;
 
     public BusITWeekDatabaseHelper() {
-        super(27);
+        super(29);
     }
 
     @Override
@@ -20,8 +20,8 @@ public class BusITWeekDatabaseHelper extends StoryLineDatabaseHelper {
         firstStage(49.209790, 16.615008);
         secondStage(49.210025, 16.614832);
         thirdStage(49.210083, 16.614406);
-        fourthStage(49.210083, 16.614406, 42417 ,43344);
-        fifthStage(49.209458, 16.615033, 14635 ,52232);
+        fourthStage(49.209659, 16.614636, 42417 ,43344);
+        fifthStage(49.209659, 16.614637, 14635 ,52232);
     }
 
     /**
