@@ -223,7 +223,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             player.setStars(stars);
 
 
-                startActivity(new Intent(this, FinalResultActivity.class));
+            startActivity(new Intent(this, FinalResultActivity.class));
             finish();
         } else {
             initializeListeners();

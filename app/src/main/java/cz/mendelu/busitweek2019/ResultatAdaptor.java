@@ -36,7 +36,7 @@ class ResultatAdaptor extends RecyclerView.Adapter<ResultatAdaptor.MyViewHolder>
         Player p = names.get(position);
         myViewHolder.nameOfTheTeam.setText(p.getName());
         myViewHolder.ratingBar.setRating(p.getStars());
-        myViewHolder.time.setText("" + p.getTime());
+        myViewHolder.time.setText("" + p.getFormattedTime());
         myViewHolder.rankNumber.setText(""+x);
         x++;
 

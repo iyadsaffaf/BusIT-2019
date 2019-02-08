@@ -44,11 +44,10 @@ public class FinalResultActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("players");
         recyclerView = findViewById(R.id.results);
-        initilaizeTheList();
 
 
         players = new ArrayList<>();
-        initilaizeTheList();
+        initializeTheList();
 
         myRef.child(player.getKey()).setValue(player).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -61,10 +60,12 @@ public class FinalResultActivity extends AppCompatActivity {
 
                         // A new comment has been added, add it to the displayed list
                         Player player = dataSnapshot.getValue(Player.class);
-                        players.add(player);
+                        if(player.getStars() > 0){
+                            players.add(player);
 
-                        if (resultatAdaptor != null)
-                            resultatAdaptor.notifyDataSetChanged();
+                            if (resultatAdaptor != null)
+                                resultatAdaptor.notifyDataSetChanged();
+                        }
 
                     }
 
@@ -102,7 +103,7 @@ public class FinalResultActivity extends AppCompatActivity {
     }
 
 
-    private void initilaizeTheList() {
+    private void initializeTheList() {
 
 
         resultatAdaptor = new ResultatAdaptor(players, this);
