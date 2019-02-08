@@ -85,7 +85,7 @@ class DefaultTaskHelper {
         }
 
         TaskBuilder taskBuilder =  builder.addGPSTask(Integer.toString(stage) + "-" + Integer.toString(stepsBack + 1))
-                .location(locations.get(stage - 1).getLatitude(), locations.get(stage - 1).getLongitude())
+                .location(locations.get(stage - stepsBack).getLatitude(), locations.get(stage - stepsBack).getLongitude())
                 .radius(RADIUS)
                 .victoryPoints(VICTORY_POINTS);
 
