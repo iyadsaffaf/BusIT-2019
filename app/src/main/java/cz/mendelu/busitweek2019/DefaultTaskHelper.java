@@ -13,7 +13,7 @@ import cz.mendelu.busItWeek.library.builder.TaskBuilder;
 class DefaultTaskHelper {
 
     private final static int VICTORY_POINTS = 1;
-    private final static int RADIUS = 5;
+    private final static int RADIUS = 12;
 
     private final StoryLineBuilder builder;
     private List<LatLng> locations;
